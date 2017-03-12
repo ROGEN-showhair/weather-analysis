@@ -1,42 +1,36 @@
 package com.jd.analysis.producedata;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by xudi1 on 2017/3/7.
  */
 public class OutputData {
+    private static String temp_data_location = "E:\\Java-Project\\weather-analysis\\input\\temp";
     private static String data_location = "E:\\Java-Project\\weather-analysis\\input\\data";
 
-    /*public static void main(String[] args) throws ParseException {
-        for (int i = 0; i < 100; i++) {
-            System.out.println(timeString(i) + "    Temp{max:" +maxTemp() + "℃/min:" + minTemp() + "℃};Humidity{"+ Hunidity() +"}");
-        }
-        //System.out.println(timeString(100));
-    }*/
+    public static void main(String[] args){
+        OutputTemp(temp_data_location);
+        RemoveRepetition(temp_data_location,data_location);
+    }
 
     /**
-     * 用Map实现数据去重
-     * @param args
+     * 随机产生气象数据，写入temp文件
+     * @param tempPath
      */
-    public static void main(String[] args){
+    public static void OutputTemp(String tempPath){
         try {
-            File file = new File(data_location);
+            File file = new File(tempPath);
             if (!file.exists()) {
                 file.createNewFile();
             }
             FileOutputStream outputStream = new FileOutputStream(file, true);
             StringBuffer stringBuffer = new StringBuffer();
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 365; i++){
                 stringBuffer.append(timeString(i)+"    Temp(max:" +maxTemp() + "℃/min:" +
                         minTemp() + "℃);Humidity("+ Humidity() +"%);WSP("+WSP()+"m/s)").append("\r\n");
                 outputStream.write(stringBuffer.toString().getBytes("utf-8"));
@@ -47,9 +41,48 @@ public class OutputData {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
+    /**
+     * 对temp文件中的数据去重，存入data
+     * @param tempPath
+     * @param path
+     */
+    public static void RemoveRepetition(String tempPath,String path){
+        Set<String> values = new LinkedHashSet<String>();
+        try{
+            /*
+            生成一个空文件
+             */
+            File file = new File(path);
+            if( !file.exists()){
+                file.createNewFile();
+            }
+            FileOutputStream outputStream = new FileOutputStream(file,true);
+            StringBuffer stringBuffer = new StringBuffer();
+            /*
+            读取有重复的临时数据
+             */
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempPath)));
+            String value = "";
+            while((value = reader.readLine()) != null){
+                values.add(value);
+            }
+
+            for(Object string : values){
+                System.out.println(string);
+                string = string + "\n";
+                outputStream.write(string.toString().getBytes("utf-8"));
+            }
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
     /**
      * 这里没用一个带参的函数生成数据是因为不同的属性在它应有的范围中有不同的密集分布范围，方便以后修改
      * @return
