@@ -1,5 +1,6 @@
 package com.jd.analysis;
 
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -59,15 +60,32 @@ public class WordCount {
             System.err.println("Usage: wordcount <in> <out>");
             System.exit(2);
         }
+        //先删除output目录
+        deleteDir(conf, otherArgs[otherArgs.length - 1]);
         Job job = new Job(conf, "word count");
         job.setJarByClass(WordCount.class);
+
         job.setMapperClass(TokenizerMapper.class);
         job.setCombinerClass(IntSumReducer.class);
         job.setReducerClass(IntSumReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
+
         FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
         FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
+    }
+    /** * 删除指定目录 * * @param conf * @param dirPath * @throws IOException */
+    private static void deleteDir(Configuration conf, String dirPath) throws IOException {
+        FileSystem fs = FileSystem.get(conf);
+        Path targetPath = new Path(dirPath);
+        if (fs.exists(targetPath)) {
+            boolean delResult = fs.delete(targetPath, true);
+            if (delResult) {
+                System.out.println(targetPath + " has been deleted sucessfullly.");
+            } else {
+                System.out.println(targetPath + " deletion failed.");
+            }
+        }
     }
 }

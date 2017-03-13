@@ -1,16 +1,26 @@
 package com.jd.analysis.bean;
 
+import org.apache.hadoop.io.Writable;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
 /**
  * Created by xudi1 on 2017/3/8.
  */
-public class MeteorologicalBean {
+public class MeteorologicalBean implements Writable {
 
     private float MinTemp;
     private float MaxTemp;
     private float Humidity;
     private float WSP;
 
+    /**
+     * 不能省略，否则会报错：java.io.IOException: Unable to initialize any output collector
+     */
     public MeteorologicalBean() {
+        super();
     }
 
     public MeteorologicalBean(float minTemp, float maxTemp, float humidity, float WSP) {
@@ -60,5 +70,32 @@ public class MeteorologicalBean {
                 ", Humidity=" + Humidity +
                 ", WSP=" + WSP +
                 '}';
+    }
+
+    /**
+     * 序列化
+     * @param dataOutput
+     * @throws IOException
+     */
+    @Override
+    public void write(DataOutput dataOutput) throws IOException {
+        dataOutput.writeFloat(MinTemp);
+        dataOutput.writeFloat(MaxTemp);
+        dataOutput.writeFloat(Humidity);
+        dataOutput.writeFloat(WSP);
+    }
+
+    /**
+     * 反序列化
+     * @param dataInput
+     * @throws IOException
+     */
+    @Override
+    public void readFields(DataInput dataInput) throws IOException {
+        this.MinTemp = dataInput.readFloat();
+        this.MaxTemp = dataInput.readFloat();
+        this.Humidity = dataInput.readFloat();
+        this.WSP = dataInput.readFloat();
+
     }
 }

@@ -30,8 +30,8 @@ public class OutputData {
             }
             FileOutputStream outputStream = new FileOutputStream(file, true);
             StringBuffer stringBuffer = new StringBuffer();
-            for(int i = 0; i < 365; i++){
-                stringBuffer.append(timeString(i)+"    Temp(max:" +maxTemp() + "℃/min:" +
+            for(int i = 0; i < 366; i++){
+                stringBuffer.append(timeString(i)+"\tTemp(max:" +maxTemp() + "℃/min:" +
                         minTemp() + "℃);Humidity("+ Humidity() +"%);WSP("+WSP()+"m/s)").append("\r\n");
                 outputStream.write(stringBuffer.toString().getBytes("utf-8"));
             }
@@ -59,7 +59,7 @@ public class OutputData {
                 file.createNewFile();
             }
             FileOutputStream outputStream = new FileOutputStream(file,true);
-            StringBuffer stringBuffer = new StringBuffer();
+
             /*
             读取有重复的临时数据
              */
@@ -117,7 +117,7 @@ public class OutputData {
      */
     public static String timeString(int num) throws ParseException{
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date  currdate = format.parse("2000-01-01");
+        Date  currdate = format.parse("2016-01-01");
         //System.out.println("现在的日期是：" + currdate);
         Calendar ca = Calendar.getInstance();
         ca.setTime(currdate);
