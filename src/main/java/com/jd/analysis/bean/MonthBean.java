@@ -4,10 +4,19 @@ package com.jd.analysis.bean;
  * Created by xudi1 on 2017/3/8.
  */
 public class MonthBean {
+    private String Month;
     private float MaxTemp;
     private float MinTemp;
     private float Humidity;
     private float WSP;
+
+    public String getMonth() {
+        return Month;
+    }
+
+    public void setMonth(String month) {
+        Month = month;
+    }
 
     public float getMaxTemp() {
         return MaxTemp;
@@ -44,7 +53,8 @@ public class MonthBean {
     @Override
     public String toString() {
         return "MonthBean{" +
-                "MaxTemp=" + MaxTemp +
+                "Month='" + Month + '\'' +
+                ", MaxTemp=" + MaxTemp +
                 ", MinTemp=" + MinTemp +
                 ", Humidity=" + Humidity +
                 ", WSP=" + WSP +

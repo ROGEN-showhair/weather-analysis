@@ -5,41 +5,35 @@
   Time: 17:42
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=GB18030"
-         pageEncoding="GB18030"%>
-
-<%@ page import="org.jfree.data.general.DefaultPieDataset,org.jfree.chart.ChartFactory
-,org.jfree.chart.JFreeChart,org.jfree.chart.servlet.*" %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
-  <title>Insert title here</title>
+  <title>Weather-Analysis</title>
 </head>
 <body>
-
-<%
-
-  DefaultPieDataset dpd = new DefaultPieDataset();
-
-  dpd.setValue("¹ÜÀíÈËÔ±", 25);
-  dpd.setValue("ÊĞ³¡ÈËÔ±", 25);
-  dpd.setValue("¿ª·¢ÈËÔ±", 45);
-  dpd.setValue("ÆäËûÈËÔ±", 10);
-
-  JFreeChart chart = ChartFactory.createPieChart("Ä³¹«Ë¾×éÖ¯½á¹¹Í¼",dpd, true, false, false);
-
-  String fileName = ServletUtilities.saveChartAsPNG(chart,800,600,session);
-  //ServletUtilitiesÊÇÃæÏòweb¿ª·¢µÄ¹¤¾ßÀà£¬·µ»ØÒ»¸ö×Ö·û´®ÎÄ¼şÃû,ÎÄ¼şÃû×Ô¶¯Éú³É£¬Éú³ÉºÃµÄÍ¼Æ¬»á×Ô¶¯·ÅÔÚ·şÎñÆ÷£¨tomcat£©µÄÁÙÊ±ÎÄ¼şÏÂ£¨temp£©
-
-  String url = request.getContextPath() + "/DisplayChart?filename=" + fileName;
-  //¸ù¾İÎÄ¼şÃûÈ¥ÁÙÊ±Ä¿Â¼ÏÂÑ°ÕÒ¸ÃÍ¼Æ¬£¬ÕâÀïµÄ/DisplayChartÂ·¾¶ÒªÓëÅäÖÃÎÄ¼şÀïÓÃ»§×Ô¶¨ÒåµÄ<url-pattern>Ò»ÖÂ
-
-%>
-
-<img src="<%= url %>" width="800" height="600">
-
+ä¸‹è½½ï¼š
+<form method="get" action = "DownloadServlet" >
+  <hr>
+  <p>FileNameï¼š<input type="text" name="fileName" ></p>
+  <p>FilePathï¼š<input type="text" name="filePath"></p>
+  <input name = "download" type="submit" value="ä¸‹è½½æ•°æ®">
+  <hr />
+</form>
+ä¸Šä¼ ï¼š
+<form method="post" action = "UploadServlet" enctype="multipart/form-data">
+  <input type="file" name="selectfile" value="é€‰æ‹©æ–‡ä»¶">
+  <input name = "upload" type="submit" value="ä¸Šä¼ æ•°æ®">
+</form>
+<hr>
+åˆ†æï¼š
+<form method="get" action = "AnalysisServlet">
+  <input name = "calculation" type="submit" value = "å¼€å§‹è®¡ç®—">
+</form>
+<hr/>
+æ˜¾ç¤ºï¼š
+<form method="get" action = "ShowResultServlet">
+  <input name = "show" type="submit" value = "æ˜¾ç¤ºç»“æœ">
+</form>
 
 </body>
 </html>

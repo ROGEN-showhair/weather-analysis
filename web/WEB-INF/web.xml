@@ -6,6 +6,37 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <!-- 处理数据 -->
+    <servlet>
+        <servlet-name>AnalysisServlet</servlet-name>
+        <servlet-class>com.jd.analysis.servlet.AnalysisServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AnalysisServlet</servlet-name>
+        <url-pattern>/AnalysisServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- 下载数据 -->
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>com.jd.analysis.servlet.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/DownloadServlet</url-pattern>
+    </servlet-mapping>
+    <!-- 上传数据 -->
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>com.jd.analysis.servlet.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/UploadServlet</url-pattern>
+    </servlet-mapping>
+    <!-- 显示折线图 -->
+    <!-- 在jsp中绘图必须有的 -->
     <servlet>
         <servlet-name>DisplayChart</servlet-name>
         <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
@@ -13,8 +44,17 @@
 
     <servlet-mapping>
         <servlet-name>DisplayChart</servlet-name>
-        <url-pattern>/servlet/TemperatureServlet</url-pattern>
+        <url-pattern>/DisplayChart</url-pattern>
     </servlet-mapping>
 
+    <!-- 给jsp中传运算结果 -->
+    <servlet>
+        <servlet-name>ShowResultServlet</servlet-name>
+        <servlet-class>com.jd.analysis.servlet.ShowResultServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowResultServlet</servlet-name>
+         <url-pattern>/ShowResultServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>

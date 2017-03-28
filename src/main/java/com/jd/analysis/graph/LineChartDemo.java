@@ -49,7 +49,7 @@ public class LineChartDemo {
         }
         //随机添加数据值
         for (int i = 0; i < 15; i++) {
-            Random r = new java.util.Random();
+            Random r = new Random();
             linedataset.addValue(i + i * 9.34 + r.nextLong() % 100,  //值
                     series,  //哪条数据线
                     time[i]); // 对应的横轴

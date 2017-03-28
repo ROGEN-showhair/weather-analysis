@@ -3,7 +3,8 @@ package com.jd.analysis.hadooptestjob;
 import com.jd.analysis.bean.MeteorologicalBean;
 import com.jd.analysis.mapreduce.MeteorologicalMapper;
 import com.jd.analysis.mapreduce.MeteorologicalReducer;
-import com.jd.analysis.servelt.WeatherParsingServelt;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -13,16 +14,19 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.yarn.api.records.URL;
 
 import java.io.IOException;
+import java.net.URI;
 
 /**
  * Created by xudi1 on 2017/3/13.
  */
 public class TestJob {
+    private static final Log LOG = LogFactory.getLog(TestJob.class);
     public static void main(String[] args) throws IOException {
         Configuration conf = new Configuration();
-        FileSystem fs = FileSystem.get(conf);
+        FileSystem fs = FileSystem.get(URI.create("hdfs://192.168.217.130:9000/user/hadoop/weatherout"),conf);
         Path out = new Path("hdfs://192.168.217.130:9000/user/hadoop/weatherout");
         if(fs.exists(out)){
             fs.delete(out,true);
